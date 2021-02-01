@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 	
+	//메인페이지 라우팅
+	@GetMapping("/")
+	public String mainPage(Model model) {
+		model.addAttribute("msg" , "양영디지털고등학교 도제반");
+		return "main";
+	}
+	
 	@GetMapping("/hello")
 	public String heelo(Model model , @RequestParam(value="name") String name) {
-		
 		model.addAttribute("msg" , "안녕하세요. JSP 마스터 " + name + "님");
 		return "hello";
 	}
