@@ -4,6 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,6 +17,7 @@ import net.gondr.domain.YYSampleVO;
 @RequestMapping("/user/")
 public class UserController {
 
+	
 	@RequestMapping(value = "regist", method = RequestMethod.GET)
 	public String viewRegistPage() {
 		return "user/regist";
@@ -54,17 +57,18 @@ public class UserController {
 	public String loginProcess(UserVO user, HttpSession session) {
 		if (user.getUserid().equals("gondr") && user.getPassword().equals("1234")) {
 			session.setAttribute("user", user);
+			session.removeAttribute("err_msg");
 			return "redirect:/"; // 메인페이지로 이동
 		}else {
+			session.setAttribute("err_msg", "아이디 또는 비밀번호가 잘못되었습니다.");
 			return "redirect:/user/login"; 
 		}
-		
 	}
 	
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@GetMapping("logout")
 	public String logoutProcess(HttpSession session) {
-			session.removeAttribute("user");
-			return "redirect:/"; // 메인페이지로 이동
+		session.removeAttribute("user");
+		return "redirect:/";
 	}
 
 }
