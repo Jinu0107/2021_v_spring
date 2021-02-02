@@ -70,5 +70,27 @@ public class UserController {
 		session.removeAttribute("user");
 		return "redirect:/";
 	}
-
+	
+	@GetMapping("info")
+	public String viewInfoPage(HttpSession session) {
+		return "user/info";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
