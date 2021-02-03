@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>world</h1>
+	<h1>World Spring framework</h1>
 	<p>안녕하세요 ${name}</p>
 </body>
 </html>

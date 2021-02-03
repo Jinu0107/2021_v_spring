@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h1>회원가입</h1>
-	<form method="post">
+	<form method="post">  
 		<input type="text" name="userid" />
 		<input type="number" name="code"/>
 		

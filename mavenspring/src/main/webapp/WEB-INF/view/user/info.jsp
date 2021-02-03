@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <h2>유저정보</h2>
-    <p>아이디 : ${user.userid}</p>
-    <p>이름 : ${user.password}</p>
+	<h2>유저 정보</h2>
+	<p>아이디 : ${user.userid}</p>
+	<p>이름 : ${user.password}</p>
 </body>
 </html>

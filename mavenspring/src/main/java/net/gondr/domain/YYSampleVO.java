@@ -3,6 +3,15 @@ package net.gondr.domain;
 public class YYSampleVO {
 	private String userid;
 	private Integer code;
+	private String sample;
+	
+	
+	public String getSample() {
+		return sample;
+	}
+	public void setSample(String sample) {
+		this.sample = sample;
+	}
 	public String getUserid() {
 		return userid;
 	}
@@ -15,5 +24,4 @@ public class YYSampleVO {
 	public void setCode(Integer code) {
 		this.code = code;
 	}
-	
 }
