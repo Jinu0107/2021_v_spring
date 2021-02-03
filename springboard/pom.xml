@@ -106,6 +106,29 @@
 			<version>3.0.11.RELEASE</version>
 		</dependency>
 
+
+		<!-- jquery -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+
+		<!-- bootstrap -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.6.0</version>
+		</dependency>
+
+		<!-- popper -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>popper.js</artifactId>
+			<version>2.5.4</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<!-- 빌드시 필요한 메이븐 플러그인 -->
