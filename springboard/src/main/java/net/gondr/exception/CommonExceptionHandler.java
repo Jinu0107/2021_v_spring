@@ -9,7 +9,6 @@ public class CommonExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public String handleException(Exception e, Model model) {
-		System.out.println("ㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ");
 		e.printStackTrace();
 		model.addAttribute("title", "에러 클래스 : " + e.getClass().getName());
 		model.addAttribute("errorMsg", e.getMessage());
