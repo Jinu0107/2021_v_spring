@@ -32,11 +32,12 @@ public class UserServiceTest {
 		System.out.println(user);
 	}
 	
-	@Test
+//	@Test
 	public void userInfo() {
 		UserVO user = service.getUserInfo("gondr99");
 		System.out.println(user);
 	}
+	
 	
 }
 

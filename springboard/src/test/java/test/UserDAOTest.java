@@ -27,7 +27,7 @@ public class UserDAOTest {
 		dao.insertUser(user);
 	}
 	
-	@Test
+//	@Test
 	public void testSelectUser() throws Exception {
 		UserVO user = dao.getUser("gondr");
 		System.out.println(user.toString());
@@ -38,6 +38,17 @@ public class UserDAOTest {
 		UserVO user = dao.loginUser("gondr", "1234");
 		System.out.println(user);
 	}
+	
+//	@Test
+	public void updateExp() throws Exception {
+		dao.updateExp("wjdrms735@naver.com");
+	}
+	
+	@Test
+	public void updateLevel() throws Exception {
+		dao.updateLevel("wjdrms735@naver.com");
+	}
+	
 	 
 	
 	

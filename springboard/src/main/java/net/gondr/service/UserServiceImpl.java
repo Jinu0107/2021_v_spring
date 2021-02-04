@@ -7,14 +7,20 @@ import net.gondr.dao.UserDAO;
 import net.gondr.domain.UserVO;
 
 @Service
-public class UserServiceImpl implements UserService{
-	
+public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserDAO dao;
 
 	@Override
 	public UserVO login(String userid, String password) {
-		return dao.loginUser(userid, password);
+		UserVO user = dao.loginUser(userid, password);
+		if (user != null) {
+			dao.updateExp(userid);
+			dao.updateLevel(userid);
+			user = dao.getUser(userid);
+		}
+		return user;
 	}
 
 	@Override
@@ -26,5 +32,5 @@ public class UserServiceImpl implements UserService{
 	public UserVO getUserInfo(String userid) {
 		return dao.getUser(userid);
 	}
-	
+
 }
