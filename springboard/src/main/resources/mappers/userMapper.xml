@@ -25,4 +25,5 @@
 	<update id="updateLevel">
 		UPDATE spring_users u , spring_level l  SET u.level = u.level+1 , u.exp = 0 WHERE u.level = l.level AND u.exp >= l.exp AND u.userid = #{userid};
 	</update>
+
 </mapper>

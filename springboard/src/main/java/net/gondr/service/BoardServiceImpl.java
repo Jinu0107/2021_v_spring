@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import net.gondr.dao.BoardDAO;
 import net.gondr.dao.UserDAO;
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.Criteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -48,4 +49,21 @@ public class BoardServiceImpl implements BoardService {
 	public Integer countArticle() {
 		return dao.getCnt();
 	}
+
+	@Override
+	public List<BoardVO> getCriteriaList(Criteria c) {
+		return dao.list(c);
+	}
+
+	@Override
+	public Integer countCriteria(Criteria c) {
+		return dao.getCnt(c);
+	}
+
+	@Override
+	public BoardVO userAuth(Integer id, String userid) {
+		return dao.userAuth(id, userid);
+	}
+	
+	
 }

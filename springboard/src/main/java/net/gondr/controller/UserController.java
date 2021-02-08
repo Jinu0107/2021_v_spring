@@ -1,15 +1,23 @@
 package net.gondr.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.gondr.domain.LoginDTO;
@@ -63,7 +71,7 @@ public class UserController {
 
 	@PostMapping("login")
 	public String userLogin(LoginDTO loginDTO, HttpSession session, Model model) {
-		
+
 		if (loginDTO.getUserid().isEmpty() || loginDTO.getPassword().isEmpty()) {
 			model.addAttribute("msg", "로그인 실패, 아이디와 비밀번호를 확인하세요");
 			return "user/login";
@@ -74,7 +82,7 @@ public class UserController {
 			model.addAttribute("msg", "로그인 실패, 아이디와 비밀번호를 확인하세요");
 			return "user/login";
 		}
-		
+
 		session.setAttribute("user", user);
 		return "redirect:/";
 
@@ -85,11 +93,32 @@ public class UserController {
 		model.addAttribute("loginDTO", new LoginDTO());
 		return "user/login";
 	}
-	
+
 	@GetMapping("logout")
 	public String logOut(HttpSession session) {
 		session.removeAttribute("user");
 		return "redirect:/";
+	}
+
+	@ResponseBody
+	@GetMapping("profile/{file:.+}")
+	public byte[] getUserProfile(@PathVariable String file) throws IOException {
+		String uploadPath = context.getRealPath("/WEB-INF/upload");
+
+		String defaultImage = "nouser.png";
+		
+		try {
+			File profile = new File(uploadPath + File.separator + file);
+			FileInputStream fis = new FileInputStream(profile);
+			return IOUtils.toByteArray(fis);
+		} catch (FileNotFoundException e) {
+			File profile = new File(uploadPath + File.separator + defaultImage);
+			FileInputStream fis = new FileInputStream(profile);
+			return IOUtils.toByteArray(fis);
+		}
+
+		
+		
 	}
 
 }

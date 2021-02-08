@@ -1,5 +1,7 @@
 package net.gondr.controller;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mysql.cj.jdbc.SuspendableXAConnection;
 import com.nhncorp.lucy.security.xss.LucyXssFilter;
 import com.nhncorp.lucy.security.xss.XssSaxFilter;
 
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.Criteria;
 import net.gondr.domain.UploadResponse;
 import net.gondr.domain.UserVO;
 import net.gondr.service.BoardService;
@@ -57,9 +61,14 @@ public class BoardController {
 		LucyXssFilter filter = XssSaxFilter.getInstance("lucy-xss-sax.xml");
 		String clean = filter.doFilter(board.getContent());
 		board.setContent(clean);
-
-		service.writeArticle(board);
-		return "redirect:/board"; // 글목록으로 이동
+		System.out.println(board.getId());
+		if(board.getId() != null) {
+			service.updateArticleList(board);
+		}else {
+			service.writeArticle(board);
+		}
+		
+		return "redirect:/board/list"; // 글목록으로 이동
 	}
 
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
@@ -90,13 +99,59 @@ public class BoardController {
 		}
 		return upResponse;
 	}
-	
+
 	@GetMapping("view/{id}")
-	public String viewArticle(@PathVariable Integer id, Model model) {
+	public String viewArticle(@PathVariable Integer id, Model model, HttpSession session) {
 		BoardVO board = service.viewArticle(id);
-		model.addAttribute("board" , board);
-		
+		UserVO user = (UserVO) session.getAttribute("user");
+		boolean auth;
+		if (user != null) {
+			auth = board.getWriter().equals(user.getUserid());
+		} else {
+			auth = false;
+		}
+		model.addAttribute("board", board);
+		model.addAttribute("auth", auth);
 		return "board/view";
 	}
-	
+
+	@GetMapping("list")
+	public String viewList(Criteria c, Model model) {
+//		List<BoardVO> list = service.getArticleList((c.getPage() - 1) * c.getPerPageNum(), c.getPerPageNum());
+		List<BoardVO> list = service.getCriteriaList(c);
+		model.addAttribute("list", list);
+
+		Integer cnt = service.countCriteria(c);
+		c.calculate(cnt); // 계산이 끝나면 c 에는 페이지네이션 제작에 필요한 변수들이 들어가있게 된다.
+		model.addAttribute("c", c);
+
+		return "board/list";
+	}
+
+	@GetMapping("delete/{id}")
+	public String deleteArticle(@PathVariable Integer id, Model model, HttpSession session) {
+		UserVO user = (UserVO) session.getAttribute("user");
+		BoardVO board = service.viewArticle(id);
+		if (user != null) {
+			if (board.getWriter().equals(user.getUserid())) {
+				service.deleteArticle(id);
+			}
+		}
+		return "redirect:/board/list";
+	}
+
+	@GetMapping("update/{id}")
+	public String viewUpdatePage(@PathVariable Integer id, Model model, HttpSession session) {
+		UserVO user = (UserVO) session.getAttribute("user");
+		BoardVO board = service.viewArticle(id);
+		model.addAttribute("boardVO", board);
+		if (user != null) {
+			if (board.getWriter().equals(user.getUserid())) {
+				return "board/write";
+			}
+		}
+		return "redirect:/board/list";
+
+	}
+
 }

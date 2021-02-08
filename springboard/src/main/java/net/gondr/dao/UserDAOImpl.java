@@ -45,4 +45,5 @@ public class UserDAOImpl implements UserDAO{
 		session.update(ns + ".updateLevel" , userid);
 	}
 
+
 }
